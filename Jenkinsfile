@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     tools {
-        // Use the exact name you configured in Jenkins Global Tool Configuration
         jdk 'Java21'
-        maven 'Maven3'   // Adjust this to match your Maven installation name
+        maven 'Maven3'
     }
 
     stages {
@@ -22,7 +21,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
     }

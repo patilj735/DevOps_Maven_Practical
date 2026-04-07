@@ -2,48 +2,28 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'   // Must match Jenkins Global Tool Configuration
-        jdk 'JDK'       // Configure this as JDK 21 in Jenkins
+        // Use the exact name you configured in Jenkins Global Tool Configuration
+        jdk 'Java21'
+        maven 'Maven3'   // Adjust this to match your Maven installation name
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                checkout scm
+                git url: 'https://github.com/patilj735/DevOps_Maven_Practical.git', branch: 'main'
             }
         }
 
         stage('Build') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn clean compile'
-                    } else {
-                        bat 'mvn clean compile'
-                    }
-                }
+                sh 'mvn clean install'
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn test'
-                    } else {
-                        bat 'mvn test'
-                    }
-                }
+                sh 'mvn test'
             }
         }
     }
-
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-        }
-    }
 }
-
-
